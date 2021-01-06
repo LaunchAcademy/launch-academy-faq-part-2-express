@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
-import Question from './Question'
+import React, { useState, useEffect } from "react"
+import Question from "./Question"
+import FAQForm from "./FAQForm"
 import { hot } from "react-hot-loader/root"
 
-const FAQList = props => {
+const FAQList = (props) => {
   const [questions, setQuestions] = useState([])
   const [selectedQuestion, setSelectedQuestion] = useState([])
 
-  const toggleQuestionSelect = id => {
+  const toggleQuestionSelect = (id) => {
     if (id === selectedQuestion) {
       setSelectedQuestion(null)
     } else {
@@ -14,7 +15,47 @@ const FAQList = props => {
     }
   }
 
-  const questionListItems = questions.map(question => {
+  const fetchData = async () => {
+    try {
+      const response = await fetch("/api/v1/questions")
+      if (!response.ok) {
+        const errorMessage = `${response.status} (${response.statusText})`
+        const error = new Error(errorMessage)
+        throw error
+      }
+      const body = await response.json()
+      setQuestions(body.questions)
+    } catch (error) {
+      console.error(`Error in fetch: ${err.message}`)
+    }
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
+  const addQuestion = async (newQuestion) => {
+    try {
+      const response = await fetch("/api/v1/questions", {
+        method: "POST",
+        headers: new Headers({
+          "Content-Type": "application/json",
+        }),
+        body: JSON.stringify(newQuestion),
+      })
+      if (!response.ok) {
+        const errorMessage = `${response.status} (${response.statusText})`
+        const error = new Error(errorMessage)
+        throw error
+      }
+      const body = await response.json()
+      setQuestions([...questions, body.question])
+    } catch (error) {
+      console.error(`Error in fetch: ${err.message}`)
+    }
+  }
+
+  const questionListItems = questions.map((question) => {
     let selected
     if (selectedQuestion === question.id) {
       selected = true
@@ -38,6 +79,7 @@ const FAQList = props => {
   return (
     <div className="page">
       <h1>We Are Here To Help</h1>
+      <FAQForm addQuestion={addQuestion} />
       <div className="question-list">{questionListItems}</div>
     </div>
   )
