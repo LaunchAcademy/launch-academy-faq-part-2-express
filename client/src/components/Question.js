@@ -1,25 +1,21 @@
-import React from 'react'
+import React from "react"
 
-const Question = props => {
+const Question = (props) => {
   let answer, button, questionClass
   if (props.selected) {
-    questionClass = 'selected-question'
+    questionClass = "selected-question"
     button = (
       <i
         onClick={props.handleClick}
-        className="fa fa-minus-square fa-2x green"
+        className="far fa-minus-square fa-2x fa-green"
         aria-hidden="true"
       />
     )
     answer = props.answer
   } else {
-    questionClass = 'unselected-question'
+    questionClass = "unselected-question"
     button = (
-      <i
-        onClick={props.handleClick}
-        className="fa fa-plus-square fa-2x"
-        aria-hidden="true"
-      />
+      <i onClick={props.handleClick} className="far fa-plus-square fa-2x" aria-hidden="true" />
     )
   }
 
