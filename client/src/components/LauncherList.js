@@ -1,11 +1,34 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react"
+import { Link } from "react-router-dom"
 
-const LauncherList = props => {
+const LauncherList = (props) => {
   const [launchers, setLaunchers] = useState([])
-  useEffect(() => {}, [])
 
-  const launcherList = launchers.map(launcher => {
-    return <li key={launcher.id}>{launcher.name}</li>
+  const fetchLaunchers = async () => {
+    try {
+      const response = await fetch("/api/v1/launchers")
+      if (!response.ok) {
+        const errorMessage = `${response.status} (${response.statusText})`
+        const error = new Error(errorMessage)
+        throw error
+      }
+      const body = await response.json()
+      setLaunchers(body.launchers)
+    } catch (error) {
+      console.error(`Error in fetch: ${err.message}`)
+    }
+  }
+
+  useEffect(() => {
+    fetchLaunchers()
+  }, [])
+
+  const launcherList = launchers.map((launcher) => {
+    return (
+      <li key={launcher.id}>
+        <Link to={`/launchers/${launcher.id}`}>{launcher.name}</Link>
+      </li>
+    )
   })
 
   return (
