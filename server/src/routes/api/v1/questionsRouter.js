@@ -9,6 +9,7 @@ questionsRouter.get("/", (req, res) => {
 })
 
 questionsRouter.post("/", (req, res) => {
+  // debugger
   const question = new Question(req.body)
   if(question.save()) {
     res.status(201).json({ question })
