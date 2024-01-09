@@ -7,15 +7,17 @@ const Question = (props) => {
     button = (
       <i
         onClick={props.handleClick}
-        className="far fa-minus-square fa-2x fa-green"
-        aria-hidden="true"
+        className="fa fa-minus-square fa-2x"
       />
     )
     answer = props.answer
   } else {
     questionClass = "unselected-question"
     button = (
-      <i onClick={props.handleClick} className="far fa-plus-square fa-2x" aria-hidden="true" />
+      <i
+        onClick={props.handleClick}
+        className="fa fa-plus-square fa-2x"
+      />
     )
   }
 
