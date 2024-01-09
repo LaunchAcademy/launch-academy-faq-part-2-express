@@ -13,6 +13,6 @@
     "start": "yarn workspace launch-academy-faq-part-2-express-server start"
   },
   "engines": {
-    "node": "^14.8"
+    "node": "^16.18"
   }
 }
